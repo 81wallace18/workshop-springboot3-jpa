@@ -21,17 +21,16 @@ import com.educandoweb.course.services.UserService;
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
-	
-	@Autowired
+
+	@Autowired 
 	private UserService service;
 	
 	@GetMapping
 	public ResponseEntity<List<User>> findAll() {
 		List<User> list = service.findAll();
-		
 		return ResponseEntity.ok().body(list);
 	}
-	
+
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<User> findById(@PathVariable Long id) {
 		User obj = service.findById(id);
@@ -41,13 +40,13 @@ public class UserResource {
 	@PostMapping
 	public ResponseEntity<User> insert(@RequestBody User obj) {
 		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj);
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
+	public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
